@@ -2,3 +2,6 @@
 body {
   font-family: "Inter Tight", sans-serif;
 }
+.section-container {
+  @apply max-w-screen-2xl container mx-auto xl:px-24 px-4;
+}
