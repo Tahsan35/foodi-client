@@ -30,7 +30,9 @@ const Cards = ({ item }) => {
         </figure>
       </Link>
       <div className="card-body items-center text-center">
-        <h2 className="card-title">{name}</h2>
+        <Link to={`/menu/${_id}`}>
+          <h2 className="card-title">{name}</h2>
+        </Link>
         <p>description of the item</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
