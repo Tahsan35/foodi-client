@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from "/public/logo.png";
-import { FiPhoneCall } from "react-icons/fi";
+//import { FiPhoneCall } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { FaUser } from "react-icons/fa";
+import Modal from "./Modal";
 
 const NavBar = () => {
   const [isSticky, setSticky] = useState(false);
@@ -165,9 +167,14 @@ const NavBar = () => {
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          <a className="btn bg-green rounded-full px-6 text-white flex items-center gap-2">
-            <FiPhoneCall /> Contact
-          </a>
+          {/* login btn */}
+          <button
+            className="btn bg-green rounded-full px-6 text-white flex items-center gap-2"
+            onClick={() => document.getElementById("my_modal_5").showModal()}
+          >
+            <FaUser /> Login
+          </button>
+          <Modal></Modal>
         </div>
       </div>
     </header>
