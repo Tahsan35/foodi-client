@@ -8,7 +8,7 @@ const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemPerPage] = useState(8);
+  const [itemPerPage] = useState(8); // Number of items to display per page
 
   //loading data
   useEffect(() => {
@@ -69,6 +69,7 @@ const Menu = () => {
   const handleSortChange = (option) => {
     setSortOption(option);
 
+    // Logic for sorting based on the selected option
     let sortedItems = [...filteredItems];
 
     //logic
@@ -122,7 +123,7 @@ const Menu = () => {
   return (
     <div>
       {/* menu banner */}
-      <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">
+      <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
         <div className="py-48 flex flex-col justify-center items-center gap-8">
           {/* text */}
           <div className="space-y-7 px-4 text-center">

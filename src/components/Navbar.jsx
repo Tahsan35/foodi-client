@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import logo from "/public/logo.png";
 //import { FiPhoneCall } from "react-icons/fi";
-import { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
+import { AuthContext } from "../contexts/AuthProvider";
+import Profile from "./Profile";
 
 const NavBar = () => {
   const [isSticky, setSticky] = useState(false);
+  const { user } = useContext(AuthContext);
+  //console.log(user);
 
   //handle scrolling funtion
   useEffect(() => {
@@ -22,8 +26,7 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      //window.removeEventListener("scroll", handleScroll);
-      window.addEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -46,7 +49,9 @@ const NavBar = () => {
   const navItems = (
     <>
       <li>
-        <Link to="/">Home</Link>
+        <Link to="/" className="text-green">
+          Home
+        </Link>
       </li>
       <li tabIndex={0}>
         <details>
@@ -95,7 +100,7 @@ const NavBar = () => {
         }`}
       >
         <div className="navbar-start">
-          <div className="dropdown">
+          <div className="dropdown justify-between">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -144,10 +149,9 @@ const NavBar = () => {
               />
             </svg>
           </button>
-          <div
+          <label
             tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle mr-3 lg:flex hidden items-center justify-center"
+            className="btn btn-ghost btn-circle hidden lg:flex items-center justify-center mr-3"
           >
             <div className="indicator">
               <svg
@@ -166,15 +170,27 @@ const NavBar = () => {
               </svg>
               <span className="badge badge-sm indicator-item">8</span>
             </div>
-          </div>
+          </label>
+
           {/* login btn */}
-          <button
+          {/* <button
             className="btn bg-green rounded-full px-6 text-white flex items-center gap-2"
             onClick={() => document.getElementById("my_modal_5").showModal()}
           >
             <FaUser /> Login
-          </button>
-          <Modal></Modal>
+          </button> */}
+
+          {user ? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_5").showModal()}
+              className="btn flex items-center gap-2 rounded-full px-6 bg-green text-white"
+            >
+              <FaRegUser /> Login
+            </button>
+          )}
+          <Modal />
         </div>
       </div>
     </header>

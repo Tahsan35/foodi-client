@@ -11,27 +11,27 @@ const Cards = ({ item }) => {
     setIsHeartFillted(!isHeartFillted);
   };
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div to={`/menu/${_id}`} className="card shadow-xl relative mr-5 md:my-5">
       <div
-        className={`rating gap-1 absolute right-7 top-2 p-4 bg-green heartStar ${
+        className={`rating gap-1 absolute right-2 top-2 p-4 bg-green heartStar ${
           isHeartFillted ? "text-rose-500" : "text-white"
         }`}
         onClick={handleHeartClick}
       >
-        <FaHeart />
+        <FaHeart className="w-5 h-5 cursor-pointer" />
       </div>
       <Link to={`/menu/${_id}`}>
-        <figure className="px-10 pt-10">
+        <figure>
           <img
             src={image}
-            alt=""
-            className="hover:scale-105 transition-all duration-200 md:h-72"
+            alt="food"
+            className="hover:scale-105 transition-all duration-300 md:h-72"
           />
         </figure>
       </Link>
-      <div className="card-body items-center text-center">
+      <div className="card-body">
         <Link to={`/menu/${_id}`}>
-          <h2 className="card-title">{name}</h2>
+          <h2 className="card-title">{name}!</h2>
         </Link>
         <p>description of the item</p>
         <div className="card-actions justify-between items-center mt-2">
