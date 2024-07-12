@@ -1,14 +1,13 @@
-import { useContext } from "react";
+import { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthProvider";
 
-import useAxiosPublic from "../hooks/useAxiosPublic";
-
-const Signup = () => {
-  const { signUpWithGmail, createUser, updateUserProfile } =
-    useContext(AuthContext);
+const Login = () => {
+  const [errorMessage, seterrorMessage] = useState("");
+  const { signUpWithGmail, login } = useAuth();
   const axiosPublic = useAxiosPublic();
 
   const navigate = useNavigate();
@@ -16,38 +15,41 @@ const Signup = () => {
 
   const from = location.state?.from?.pathname || "/";
 
+  //react hook form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
-    createUser(email, password)
+    login(email, password)
       .then((result) => {
-        // Signed up
+        // Signed in
         const user = result.user;
-        updateUserProfile(data.email, data.photoURL).then(() => {
-          const userInfor = {
-            name: data.name,
-            email: data.email,
-          };
-          axiosPublic.post("/users", userInfor).then((response) => {
-            // console.log(response);
-            alert("Signin successful!");
-            navigate(from, { replace: true });
-          });
+        const userInfor = {
+          name: data.name,
+          email: data.email,
+        };
+        axiosPublic.post("/users", userInfor).then((response) => {
+          // console.log(response);
+          alert("Signin successful!");
+          navigate(from, { replace: true });
         });
+        // console.log(user);
+        // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
+        seterrorMessage("Please provide valid email & password!");
       });
+    reset();
   };
 
+  // login with google
   // login with google
   const handleRegister = () => {
     signUpWithGmail()
@@ -68,21 +70,12 @@ const Signup = () => {
   return (
     <div className='max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20'>
       <div className='mb-5'>
-        <form className='card-body' onSubmit={handleSubmit(onSubmit)}>
-          <h3 className='font-bold text-lg'>Please Create An Account!</h3>
-
-          {/* name */}
-          <div className='form-control'>
-            <label className='label'>
-              <span className='label-text'>Name</span>
-            </label>
-            <input
-              type='name'
-              placeholder='Your name'
-              className='input input-bordered'
-              {...register("name")}
-            />
-          </div>
+        <form
+          className='card-body'
+          method='dialog'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <h3 className='font-bold text-lg'>Please Login!</h3>
 
           {/* email */}
           <div className='form-control'>
@@ -106,35 +99,47 @@ const Signup = () => {
               type='password'
               placeholder='password'
               className='input input-bordered'
-              {...register("password")}
+              {...register("password", { required: true })}
             />
-            <label className='label mt-1'>
+            <label className='label'>
               <a href='#' className='label-text-alt link link-hover mt-2'>
                 Forgot password?
               </a>
             </label>
           </div>
 
-          {/* error message  */}
-          <p>{errors.message}</p>
+          {/* show errors */}
+          {errorMessage ? (
+            <p className='text-red text-xs italic'>
+              Provide a correct username & password.
+            </p>
+          ) : (
+            ""
+          )}
 
           {/* submit btn */}
-          <div className='form-control mt-6'>
+          <div className='form-control mt-4'>
             <input
               type='submit'
-              value='Sign up'
               className='btn bg-green text-white'
+              value='Login'
             />
           </div>
 
-          <div className='text-center my-2'>
-            Have an account?
-            <Link to='/login'>
-              <button className='ml-2 underline'>Login here</button>
-            </Link>
-          </div>
-        </form>
+          {/* close btn */}
+          <Link to='/'>
+            <div className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
+              ✕
+            </div>
+          </Link>
 
+          <p className='text-center my-2'>
+            Donot have an account?
+            <Link to='/signup' className='underline text-red ml-1'>
+              Signup Now
+            </Link>
+          </p>
+        </form>
         <div className='text-center space-x-3'>
           <button
             onClick={handleRegister}
@@ -154,4 +159,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

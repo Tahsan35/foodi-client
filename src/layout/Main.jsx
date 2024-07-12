@@ -10,13 +10,15 @@ const Main = () => {
   const { loading } = useContext(AuthContext);
 
   return (
-    <div className="bg-prigmayBG">
+    <div className='bg-prigmayBG'>
       {loading ? (
         <LoadingSpinner />
       ) : (
         <div>
           <Navbar />
-          <Outlet />
+          <div className='min-h-screen'>
+            <Outlet />
+          </div>
           <Footer />
         </div>
       )}

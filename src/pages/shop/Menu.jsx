@@ -15,13 +15,12 @@ const Menu = () => {
     //fetch data from backend
     const fetchData = async () => {
       try {
-        const res = await fetch("/menu.json");
-        const data = await res.json();
-        //console.log(data);
+        const response = await fetch("http://localhost:6001/menu");
+        const data = await response.json();
         setMenu(data);
-        setFilteredItems(data);
-      } catch (err) {
-        console.log(err);
+        setFilteredItems(data); // Initially, display all items
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
     //call the function
@@ -123,20 +122,20 @@ const Menu = () => {
   return (
     <div>
       {/* menu banner */}
-      <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
-        <div className="py-48 flex flex-col justify-center items-center gap-8">
+      <div className='max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%'>
+        <div className='py-48 flex flex-col justify-center items-center gap-8'>
           {/* text */}
-          <div className="space-y-7 px-4 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold leading-snug">
+          <div className='space-y-7 px-4 text-center'>
+            <h2 className='text-4xl md:text-5xl font-bold leading-snug'>
               For the Love of delicious
-              <span className="text-green"> Food</span>
+              <span className='text-green'> Food</span>
             </h2>
-            <p className="text-xl text-[#4A4A4A] md:w-4/5 mx-auto">
+            <p className='text-xl text-[#4A4A4A] md:w-4/5 mx-auto'>
               Come with family and feel the joy of delicious food such as Greek
               Salad, Lasagne, Butternut Pumpkin, Tokusen Wagyu, Olivas Rellenas
               and more for a moderate cost
             </p>
-            <button className="btn bg-green px-8 py-3 font-semibold text-white rounded-full">
+            <button className='btn bg-green px-8 py-3 font-semibold text-white rounded-full'>
               Order Now
             </button>
           </div>
@@ -144,10 +143,10 @@ const Menu = () => {
       </div>
 
       {/* menu shop section */}
-      <div className="section-container">
+      <div className='section-container'>
         {/* filtering and sorting */}
-        <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-          <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap ">
+        <div className='flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8'>
+          <div className='flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap '>
             {/* all category btns */}
             <button
               onClick={showAll}
@@ -188,28 +187,28 @@ const Menu = () => {
           </div>
 
           {/* sorting base filter */}
-          <div className="flex justify-end mb-4 rounded-sm">
-            <div className="bg-black p-2">
-              <FaFilter className="h-4 w-4 text-white" />
+          <div className='flex justify-end mb-4 rounded-sm'>
+            <div className='bg-black p-2'>
+              <FaFilter className='h-4 w-4 text-white' />
             </div>
             {/* sorting option */}
             <select
-              name="sort"
-              id="sort"
+              name='sort'
+              id='sort'
               onChange={(e) => handleSortChange(e.target.value)}
               value={sortOption}
-              className="bg-black text-white px-2 py-1 rounded-sm"
+              className='bg-black text-white px-2 py-1 rounded-sm'
             >
-              <option value="default">Default</option>
-              <option value="A-Z">A - Z</option>
-              <option value="Z-A">Z - A</option>
-              <option value="low-to-high">Low to High</option>
-              <option value="high-to-low">High to Low</option>
+              <option value='default'>Default</option>
+              <option value='A-Z'>A - Z</option>
+              <option value='Z-A'>Z - A</option>
+              <option value='low-to-high'>Low to High</option>
+              <option value='high-to-low'>High to Low</option>
             </select>
           </div>
         </div>
         {/* product card */}
-        <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+        <div className='grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4'>
           {currentItems.map((item) => (
             <Cards key={item._id} item={item} />
           ))}
@@ -217,7 +216,7 @@ const Menu = () => {
       </div>
 
       {/* pagination section */}
-      <div className="flex justify-center my-8">
+      <div className='flex justify-center my-8 flex-wrap gap-2'>
         {Array.from({
           length: Math.ceil(filteredItems.length / itemPerPage),
         }).map((_, index) => (
